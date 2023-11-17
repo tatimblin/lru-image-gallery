@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="flex justify-center p-4">
+        <header className="flex justify-center sm:p-4">
           <SearchBar />
         </header>
         <main className="container mx-auto md:px-24">
