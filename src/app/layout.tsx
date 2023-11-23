@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { ReactQueryProvider } from '@/components/ReactQuery';
 import './globals.css'
 import { SearchBar } from '@/components/SearchBar';
 import { Navigation } from '@/components/Navigation';
@@ -19,13 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="flex justify-center sm:p-4">
-          <SearchBar />
-        </header>
-        <main className="container mx-auto md:px-24">
-          {children}
-        </main>
-        <Navigation />
+        <ReactQueryProvider>
+          <header className="flex justify-center sm:p-4">
+            <SearchBar />
+          </header>
+          <main className="container mx-auto md:px-24">
+            {children}
+          </main>
+          <Navigation />
+        </ReactQueryProvider>
       </body>
     </html>
   )
