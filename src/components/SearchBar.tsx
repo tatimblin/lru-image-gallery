@@ -20,7 +20,7 @@ export function SearchBar() {
 
     return (
         <div className="relative w-full sm:w-fit">
-            <form onSubmit={handleSubmit} className="relative z-10 flex align-middle bg-slate-100 hover:bg-slate-200 focus-within:bg-slate-200 sm:rounded-xl sm:focus-within:rounded-b-none ease-in duration-100">
+            <form onSubmit={handleSubmit} className="relative z-10 flex align-middle bg-slate-100 hover:bg-slate-200 focus-within:bg-slate-200 sm:rounded-xl sm:focus-within:rounded-b-none ease-in duration-200">
                 <input
                     onFocus={handleFocus}
                     onBlur={handleFocus}
@@ -34,9 +34,9 @@ export function SearchBar() {
             </form>
             {(reveal || hasTransitionedIn) && (
                 <ul className={clsx(
-                    "absolute w-full bg-slate-100 sm:rounded-b-xl -translate-y-2 opacity-0 ease-in duration-200",
+                    "absolute w-full bg-slate-100 sm:rounded-b-xl top-1/2 -translate-y-2 opacity-0 ease-in duration-200",
                     {
-                        "-translate-y-0 opacity-100": (reveal && hasTransitionedIn),
+                        "translate-y-4 opacity-100": (reveal && hasTransitionedIn),
                     },
                 )}>
                     {suggestions.map((suggestion) => (
