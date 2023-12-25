@@ -1,6 +1,7 @@
 "use client"
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { Photos } from "unsplash-js/dist/methods/search/types/response";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
@@ -12,11 +13,20 @@ interface InfinitePhotos extends Photos {
   prevCursor: number;
 }
 
+type Props = {
+  searchParams: {
+    search: string,
+  },
+};
+
 export default function Home() {
-  const [page, setPage] = useState(0);
+  const searchParams = useSearchParams()!;
+
+  const [query, setQuery] = useState("san francisco");
+
   const fetchImages = async ({ pageParam = 0 })=> {
     const res = await api.search.getPhotos({
-      query: "san francisco",
+      query,
       page: pageParam,
       perPage: 10,
       orderBy: "latest",
@@ -52,10 +62,15 @@ export default function Home() {
     status,
   } = useInfiniteQuery({
     initialPageParam: 0,
-    queryKey: ['results'],
+    queryKey: ['results', query],
     queryFn: fetchImages,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   })
+
+  useEffect(() => {
+    console.log(searchParams.get("search"))
+    setQuery(searchParams.get("search") || "");
+  }, [searchParams, setQuery]);
 
   return status === "pending" ? (
     <p>Loading...</p>
@@ -67,13 +82,12 @@ export default function Home() {
         {data.pages.map((group, i) => (
           <Fragment key={i}>
             {group.results.map((photo) => (
-              <li>
+              <li key={photo.id}>
                 <Image
                   src={photo.urls.regular}
                   alt={photo.alt_description || ""}
                   credit={photo.user.name}
                 />
-                {/* <p key={photo.id}>{photo.alt_description}</p> */}
               </li>
             ))}
           </Fragment>
