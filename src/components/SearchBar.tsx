@@ -28,7 +28,7 @@ export function SearchBar() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        router.push(pathname + '?' + createQueryString('search', search))
+        router.push('/?' + createQueryString('search', search))
     }
 
     const handleFocus = () => {

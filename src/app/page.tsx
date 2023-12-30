@@ -2,6 +2,7 @@
 
 import { Fragment, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { Photos } from "unsplash-js/dist/methods/search/types/response";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
@@ -68,8 +69,10 @@ export default function Home() {
   })
 
   useEffect(() => {
-    console.log(searchParams.get("search"))
-    setQuery(searchParams.get("search") || "");
+    const searchParam = searchParams.get("search");
+    if (searchParam) {
+      setQuery(searchParam);
+    }
   }, [searchParams, setQuery]);
 
   return status === "pending" ? (
@@ -83,11 +86,13 @@ export default function Home() {
           <Fragment key={i}>
             {group.results.map((photo) => (
               <li key={photo.id}>
-                <Image
-                  src={photo.urls.regular}
-                  alt={photo.alt_description || ""}
-                  credit={photo.user.name}
-                />
+                <Link href={`image/${photo.id}`}>
+                  <Image
+                    src={photo.urls.regular}
+                    alt={photo.alt_description || ""}
+                    credit={photo.user.name}
+                  />
+                </Link>
               </li>
             ))}
           </Fragment>
